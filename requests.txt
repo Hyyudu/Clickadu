@@ -1,0 +1,27 @@
+--Выбрать всех людей, которые хоть раз путешествовали и отобразить около каждого список мест, где он бывал через запятую. Колонки: name, distinations
+SELECT human.name, group_concat(vd.name) distinations
+from human 
+  right join human_vacation_dist hvd on hvd.human_id = human.id
+  left join vacation_dist vd on vd.id = hvd.distination_id
+group by human.id
+
+--Выбрать всех людей, которые были и на Кубе и в Сочи. Колонки: name
+SELECT human.name
+from human 
+  right join human_vacation_dist hvd1 on hvd1.human_id = human.id
+  left join vacation_dist vd1 on vd1.id = hvd1.distination_id
+  right join human_vacation_dist hvd2 on hvd2.human_id = human.id
+  left join vacation_dist vd2 on vd2.id = hvd2.distination_id  
+where vd1.name = 'Cuba' and vd2.name='Sochi'
+
+--Выбрать всех людей, которые были только на Кубе и в Сочи. Колонки: name
+SELECT human.name
+from human 
+  right join human_vacation_dist hvd1 on hvd1.human_id = human.id
+  left join vacation_dist vd1 on vd1.id = hvd1.distination_id
+  right join human_vacation_dist hvd2 on hvd2.human_id = human.id
+  left join vacation_dist vd2 on vd2.id = hvd2.distination_id 
+  left join human_vacation_dist hvd3
+     on hvd3.human_id = human.id and hvd3.distination_id != hvd2.distination_id and hvd3.distination_id != hvd1.distination_id
+where vd1.name = 'Cuba' and vd2.name='Sochi'
+and hvd3.distination_id is null
