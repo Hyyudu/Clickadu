@@ -1,10 +1,11 @@
- <?
+<?
 
-class Strrev	{
-	public function process($s)	{
-		return strrev(preg_replace('~[aeiouy]+~i', '', $s));
-	}
+include_once('Strrev.php');
+
+class StrrevTest extends PHPUnit_Framework_TestCase	{
+    public function testprocess()	{
+        $s = new Strrev();
+        $this->assertEquals($s->process('Hello, World!'), '!dlrW ,llH');
+    }
 }
 
-$S = new Strrev();
-fwrite(STDOUT, $S->process($argv[1]));
